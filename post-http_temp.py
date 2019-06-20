@@ -21,9 +21,11 @@ while 1:
     serialLine = ser.readline()
     print(serialLine)
     decodedLine = serialLine.decode('utf-8', 'backslashreplace')
+    substringLine = decodedLine[:2]
+    print(substringLine)
     if "DHT" not in decodedLine:
 
-        usertemp = int(serialLine.strip('\0'))
+        usertemp = int(substringLine.strip('\0'))
         print(usertemp)
         payload = {'temp': usertemp}
         json_data = json.dumps(payload)

@@ -14,17 +14,15 @@ ser = serial.Serial("/dev/ttyUSB0", 9600)
 serialLine = ser.readline()
 decodedLine = serialLine.decode('utf-8', 'backslashreplace')
 
-if "DHT" not in decodedLine:
+logPayload = {'who': None, 'lastTemperature': -5, 'lastHumidity': 48, 'serverTime': None, 'lastContactTime': None, 'current': 151, 'amperage': 155, 'power': 180, 'consuming': 1024, 'lastContactDate': None, 'acOn': True, 'lanOn': True}
+json_data2 = json.dumps(logPayload)
 
-    usertemp = int(serialLine.strip('\0'))
+while 1:
+    if "DHT" not in decodedLine:
 
-    payload = {'temp': usertemp}
-    logPayload = {'who': None, 'lastTemperature': -5, 'lastHumidity': 48, 'serverTime': None, 'lastContactTime': None, 'current': 151, 'amperage': 155, 'power': 180, 'consuming': 1024, 'lastContactDate': None, 'acOn': True, 'lanOn': True}
-    json_data = json.dumps(payload)
-    json_data2 = json.dumps(logPayload)
-
-
-    while 1:
+        usertemp = int(serialLine.strip('\0'))
+        payload = {'temp': usertemp}
+        json_data = json.dumps(payload)
         r = requests.post(ADD_TEMP_URL, data=json_data)
         print(r.text)
         time.sleep(10)

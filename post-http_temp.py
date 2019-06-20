@@ -2,12 +2,17 @@
 import requests
 import json
 import time
+import serial
 
 # your temperature
-usertemp = 14
+
 TIME_OUT = 60
 ADD_TEMP_URL = "http://84.47.161.121:8080/rest/users/add"
 ADD_LOG_URL = "http://84.47.161.121:8080/rest/users/addlog"
+
+ser = serial.Serial("/dev/ttyUSB0", 9600)
+serialLine = ser.readline()
+usertemp = int(serialLine.strip('\0'))
 
 payload = {'temp': usertemp}
 logPayload = {'who': None, 'lastTemperature': -5, 'lastHumidity': 48, 'serverTime': None, 'lastContactTime': None, 'current': 151, 'amperage': 155, 'power': 180, 'consuming': 1024, 'lastContactDate': None, 'acOn': True, 'lanOn': True}

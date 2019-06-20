@@ -11,13 +11,14 @@ ADD_TEMP_URL = "http://84.47.161.121:8080/rest/users/add"
 ADD_LOG_URL = "http://84.47.161.121:8080/rest/users/addlog"
 
 ser = serial.Serial("/dev/ttyUSB0", 9600)
-serialLine = ser.readline()
+
 
 
 logPayload = {'who': None, 'lastTemperature': -5, 'lastHumidity': 48, 'serverTime': None, 'lastContactTime': None, 'current': 151, 'amperage': 155, 'power': 180, 'consuming': 1024, 'lastContactDate': None, 'acOn': True, 'lanOn': True}
 json_data2 = json.dumps(logPayload)
 
 while 1:
+    serialLine = ser.readline()
     print(serialLine)
     decodedLine = serialLine.decode('utf-8', 'backslashreplace')
     if "DHT" not in decodedLine:
